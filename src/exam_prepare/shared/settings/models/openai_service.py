@@ -6,6 +6,7 @@ from shared.base import BaseModel
 class OpenAISettings(BaseModel):
     openai_api_key: str
     openai_model: str
+    openai_search_model: str
     openai_embedding: str
     openai_stream: bool
     max_tokens: int
