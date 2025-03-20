@@ -9,7 +9,6 @@ from shared.base import BaseService
 from shared.logging import get_logger
 from shared.models import Language
 from shared.models import LevelClass
-from shared.models import SubjectTypeEn
 from shared.models import SubjectTypeVi
 
 from .prompts import VI_SYSTEM_PROMPT
@@ -40,7 +39,8 @@ class ContentSynthesizerService(BaseService):
             lang=inputs.lang,
         )
         content = self._generate_content(
-            user_prompt=user_prompt, system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            system_prompt=system_prompt,
         )
         return ContentSynthesizerOutput(content=content)
 
@@ -62,7 +62,8 @@ class ContentSynthesizerService(BaseService):
 
     def _generate_content(self, user_prompt: str, system_prompt: str) -> str:
         inputs = OpenAISearchInput(
-            user_prompt=user_prompt, system_prompt=system_prompt,
+            user_prompt=user_prompt,
+            system_prompt=system_prompt,
         )
         output = self.llm_service.process(inputs=inputs)
         return str(output.response)
