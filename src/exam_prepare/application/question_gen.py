@@ -92,9 +92,20 @@ class ExamGeneratorService(BaseService):
                 chapters=inputs.chapters,
             )
         )
+
+        i = 0
+        while i < 5:
+            if not self.is_json_empty(multiple_choice_questions.questions):
+                i += 1
+            else:
+                break
         return ExamGeneratorOutput(
             exam_question={
                 "content": content,  # Markdown format
                 "questions": multiple_choice_questions.questions,
             }
         )
+
+    def is_json_empty(self, json_data: dict):
+        # return true if length is 0.
+        return len(json_data) == 0

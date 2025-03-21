@@ -9,7 +9,7 @@ from shared.logging import get_logger
 from shared.logging import setup_logging
 from starlette.responses import RedirectResponse
 
-setup_logging(json_logs=True)
+setup_logging(json_logs=False)
 logger = get_logger("api")
 
 
