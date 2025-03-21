@@ -1,0 +1,37 @@
+version: '3.7'
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+  exam_prepare:
+    build:
+      context: src
+      dockerfile: exam_prepare/Dockerfile
+    ports:
+      - "3003:3003"
+    command: [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "3003", "--reload" ]
+    networks:
+      - app-tier
+    volumes:
+      - type: bind
+        source: ./src/exam_prepare
+        target: /app/exam_prepare
+    environment:
+      - OPENAI__OPENAI_API_KEY=${OPENAI__OPENAI_API_KEY}
+      - OPENAI__OPENAI_MODEL=${OPENAI__OPENAI_MODEL}
+      - OPENAI__OPENAI_SEARCH_MODEL=${OPENAI__OPENAI_SEARCH_MODEL}
+      - OPENAI__OPENAI_EMBEDDING=${OPENAI__OPENAI_EMBEDDING}
+      - OPENAI__OPENAI_STREAM=${OPENAI__OPENAI_STREAM}
+      - OPENAI__MAX_TOKENS=${OPENAI__MAX_TOKENS}
+      - OPENAI__TEMPERATURE=${OPENAI__TEMPERATURE}
+      - OPENAI__TOP_P=${OPENAI__TOP_P}
+      - AWS__SERVICE_NAME=${AWS__SERVICE_NAME}
+      - AWS__MODEL_ID=${AWS__MODEL_ID}
+      - AWS__REGION=${AWS__REGION}
+      - AWS__ACCESS_KEY=${AWS__ACCESS_KEY}
+      - AWS__SECRET_ACCESS_KEY=${AWS__SECRET_ACCESS_KEY}
+      - AWS__MAX_TOKENS=${AWS__MAX_TOKENS}
+      - AWS__TEMPERATURE=${AWS__TEMPERATURE}
+      - AWS__TOP_P=${AWS__TOP_P}
