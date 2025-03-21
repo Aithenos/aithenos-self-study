@@ -1,0 +1,20 @@
+# Using a slim version for a smaller base image
+FROM python:3.10-slim-bullseye
+
+RUN apt-get update
+
+WORKDIR /app
+
+COPY exam_prepare/requirements.txt .
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+# Increase timeout to wait for the new installation
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENV LANG="C.UTF-8"
+
+COPY exam_prepare /app/exam_prepare
+
+WORKDIR /app/exam_prepare

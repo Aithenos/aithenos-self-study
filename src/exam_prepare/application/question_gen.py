@@ -11,6 +11,8 @@ from domain.concept import ContentSynthesizerService
 
 from infra.llm_service import OpenAISearchService
 
+from shared.logging import get_logger
+
 from shared.base import BaseModel
 from shared.base import BaseService
 from shared.models import Language
@@ -18,6 +20,8 @@ from shared.models import Language
 from shared.models import ExamType
 from shared.models import LevelClass
 from shared.models import SubjectTypeVi
+
+logger = get_logger(__name__)
 
 
 class ExamGeneratorInput(BaseModel):
@@ -88,4 +92,9 @@ class ExamGeneratorService(BaseService):
                 chapters=inputs.chapters,
             )
         )
-        return ExamGeneratorOutput(exam_question=multiple_choice_questions.questions)
+        return ExamGeneratorOutput(
+            exam_question={
+                "content": content,  # Markdown format
+                "questions": multiple_choice_questions.questions,
+            }
+        )
